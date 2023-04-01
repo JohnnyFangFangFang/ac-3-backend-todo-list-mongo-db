@@ -12,3 +12,6 @@ Desktop.ini
 node_modules
 *.log
 *.gz
+
+# dotenv，因為連線字串有敏感資料所以 ignore
+.env
