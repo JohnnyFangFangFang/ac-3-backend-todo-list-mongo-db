@@ -2,6 +2,8 @@
 const express = require("express");
 // 載入 mongoose
 const mongoose = require("mongoose");
+// 載入 handlebars
+const exphbs = require("express-handlebars");
 
 // 意思是僅在非正式環境時使用 dotenv
 if (process.env.NODE_ENV !== "production") {
@@ -9,6 +11,8 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 const app = express();
+
+// 資料庫連線設定 /////////////////////////////////////////////////
 // 設定連線到 mongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -26,9 +30,16 @@ db.once("open", () => {
   console.log("mongodb connected!");
 });
 
+// 設定 handlebars /////////////////////////////////////////////////
+// 建立名為 hbs 的樣板引擎
+app.engine("hbs", exphbs({ defaultLayout: "main", extname: ".hbs" }));
+// 啟用樣板引擎 hbs
+app.set("view engine", "hbs");
+
+// 路由設定 ///////////////////////////////////////////////////////
 // 設定首頁路由
 app.get("/", (req, res) => {
-  res.send("hello world");
+  res.render("index");
 });
 
 // 設定 port 3000
