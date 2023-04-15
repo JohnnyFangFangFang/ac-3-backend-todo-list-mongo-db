@@ -1,7 +1,5 @@
 // 載入 express 並建構應用程式伺服器
 const express = require("express");
-// 載入 mongoose
-const mongoose = require("mongoose");
 // 載入 handlebars
 const exphbs = require("express-handlebars");
 // 載入 body-parser
@@ -11,30 +9,10 @@ const methodOverride = require("method-override");
 // 引用路由器
 const routes = require("./routes");
 
-// 意思是僅在非正式環境時使用 dotenv
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// 引用 mongoose 連線設定檔
+require("./config/mongoose");
 
 const app = express();
-
-// 資料庫連線設定 /////////////////////////////////////////////////
-// 設定連線到 mongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// 取得資料庫連線狀態
-const db = mongoose.connection;
-// 連線異常
-db.on("error", () => {
-  console.log("mongodb error!");
-});
-// 連線成功
-db.once("open", () => {
-  console.log("mongodb connected!");
-});
 
 // app 相關功能啟用 /////////////////////////////////////////////////
 // 設定 handlebars
