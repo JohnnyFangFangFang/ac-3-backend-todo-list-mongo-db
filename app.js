@@ -9,6 +9,11 @@ const bodyParser = require("body-parser");
 // 載入 method-override
 const methodOverride = require("method-override");
 const flash = require('connect-flash')   // 引用套件
+
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 // 引用路由器
 const routes = require("./routes");
 
@@ -30,7 +35,7 @@ app.set("view engine", "hbs");
 // 註冊 session 套件
 app.use(
   session({
-    secret: "ThisIsMySecret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   }),
