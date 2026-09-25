@@ -43,6 +43,14 @@ app.use(methodOverride("_method"));
 // 呼叫 Passport 函式並傳入 app，這條要寫在路由之前
 usePassport(app)
 
+// 把 req 裡的登入狀態交接給 res
+app.use((req, res, next) => {
+  // 你可以在這裡 console.log(req.user) 等資訊來觀察
+  res.locals.isAuthenticated = req.isAuthenticated();
+  res.locals.user = req.user;
+  next();
+});
+
 // 將 request 導入路由器，就可以不用在這邊設定路由
 app.use(routes);
 
